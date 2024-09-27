@@ -1,0 +1,82 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2006                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      setFieldsDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+// NOTE: The inert specie is defined everywhere.
+// As it is not solved it fulfills the thermo requirement of Sum Y = 1
+// in phases where there are not species
+defaultFieldValues
+(
+    volScalarFieldValue alpha.air       1
+    volScalarFieldValue alpha.liquid    0
+    volScalarFieldValue alpha.solid     0
+);
+
+regions
+(
+/*
+    boxToCell
+    {
+        box (0 0 0) (0.006 0.001 0.006);
+        fieldValues
+        (
+            volScalarFieldValue alpha.air   1
+        );
+    }
+
+    boxToCell
+    {
+        box (0 0.002 0) (0.006 0.003 0.006);
+        fieldValues
+        (
+            volScalarFieldValue alpha.air   1
+        );
+    }
+*/
+    boxToCell
+    {
+        box (0 0.002 0) (0.006 0.003 0.006);
+        fieldValues
+        (
+            volScalarFieldValue alpha.solid     1
+            volScalarFieldValue alpha.air   0
+        );
+    }
+    
+        boxToCell
+    {
+        box (0 0.00 0.002) (0.006 0.001 0.006);
+        fieldValues
+        (
+            volScalarFieldValue alpha.solid     1
+            volScalarFieldValue alpha.air   0
+        );
+    }
+/*
+    boxToCell
+    {
+        box (0 0 0) (0.006 0.003 0.006);
+        fieldValues
+        (
+            volScalarFieldValue alpha.liquid   0
+        );
+    }    
+    
+    */
+);
+
+
+// ************************************************************************* //

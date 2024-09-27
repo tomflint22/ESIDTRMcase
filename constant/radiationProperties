@@ -1,0 +1,80 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v1812                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      radiationProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+radiation       on;
+
+radiationModel  laserDTRM;
+
+
+// Number of flow iterations per radiation iteration
+solverFreq 1;
+
+
+absorptionEmissionModel localDensityAbsorptionEmission;
+
+mode	"Gaussian";
+
+nTheta	100;
+
+	nr 	100;
+
+	opd	0;
+
+	focalLaserPosition constant 	(0.003 0.0005 0.001);
+
+	/*
+focalLaserPosition table
+(
+(0 (0.002 0.003 0.003))
+(2 (0.004 0.003 0.003))
+);
+*/
+
+	laserDirection constant 	(0 1 1);
+
+	focalLaserRadius 		0.0001;
+
+	laserPower			1000;
+
+	sigma				0.001;
+
+localDensityAbsorptionEmissionCoeffs
+{
+alphaNames (alpha.air alpha.liquid alpha.solid);
+aCoeff (0 1e3 1e8);
+eCoeff (0 0.35 0.35); 
+ECoeff (0 0 0);
+}
+
+reflectionModel
+(
+	(solid and air)
+	{
+		type            FresnelLaser;
+		epsilon         0.25;
+	}
+);
+
+scatterModel    none;
+
+//reflectionModel none;
+
+sootModel       none;
+
+transmissivityModel none;
+
+// ************************************************************************* //
